@@ -186,13 +186,28 @@ class _MyAppState extends State<MyApp> {
     setState(() => _scenarios = scenarios);
     // DocumentReader.setConfig({
     //   "functionality": {
-    //     "onlineProcessingConfiguration": {
-    //       "mode": OnlineMode.MANUAL,
-    //       "url": "https://api.regulaforensics.com/",
-    //       "processParams": {"scenario": _scenarios}
+    //     "videoCaptureMotionControl": true,
+    //     "showCaptureButton": true,
+    //     "showSkipNextPageButton": false
+    //   },
+    //   "customization": {
+    //     "showResultStatusMessages": true,
+    //     "showStatusMessages": true,
+    //   },
+    //   "onlineProcessingConfiguration": {
+    //     "mode": OnlineMode.MANUAL,
+    //     "url": "https://selfcareapi.telecom.mu/document/",
+    //     "headers": {
+    //       'X-API-Key': '6ndUrBIDVHEwnM8Wf6RYoN:5zRsXKxzpIISQmFxoPpQm1',
     //     }
-    //   }
+    //   },
+    //   "processParams": {
+    //     "scenario": _selectedScenario,
+    //     "multipageProcessing": true,
+    //     "checkHologram": true,
+    //   },
     // });
+    
     DocumentReader.setRfidDelegate(RFIDDelegate.NO_PA);
     // addCertificates();
   }
@@ -283,13 +298,7 @@ class _MyAppState extends State<MyApp> {
         onChanged: (value) => setState(() {
               _selectedScenario = value;
               DocumentReader.setConfig({
-                "functionality": {
-                  "onlineProcessingConfiguration": {
-                    "mode": OnlineMode.MANUAL,
-                    "url": "https://api.regulaforensics.com/",
-                    "processParams": {"scenario": _selectedScenario},
-                  },
-                },
+                "processParams": {"scenario": _selectedScenario}
               });
             }));
     return Container(

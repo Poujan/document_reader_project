@@ -184,17 +184,39 @@ class _MyAppState extends State<MyApp> {
       scenarios.add([scenario.name!, scenario.caption!]);
     }
     setState(() => _scenarios = scenarios);
-    // DocumentReader.setConfig({
-    //   "functionality": {
-    //     "onlineProcessingConfiguration": {
-    //       "mode": OnlineMode.MANUAL,
-    //       "url": "https://api.regulaforensics.com/",
-    //       "processParams": {"scenario": _scenarios}
-    //     }
-    //   }
-    // });
-    DocumentReader.setRfidDelegate(RFIDDelegate.NO_PA);
-    // addCertificates();
+    DocumentReader.setConfig({
+      "functionality": {
+        "onlineProcessingConfiguration": {
+        
+        "url": "https://selfcareapi.telecom.mu/document/",
+      },
+        "videoCaptureMotionControl": true,
+        "showCaptureButton": true,
+        "showSkipNextPageButton": false,
+        
+      },
+      "customization": {
+        "showResultStatusMessages": true,
+        "showStatusMessages": true,
+      },
+      
+      "processParams": {
+        "scenario": _selectedScenario,
+        "multipageProcessing": true,
+        "checkHologram": true,
+        "logs": true,
+        "debugSaveLogs": true,
+        "debugSaveImages": true,
+        "debugSaveCroppedImages": true,
+        "depersonalizeLog": true
+      },
+    });
+    DocumentReader.getSessionLogFolder().then((str) {
+      print(str);
+    }).catchError(
+        (Object error) => print((error as PlatformException).message));
+    // DocumentReader.setRfidDelegate(RFIDDelegate.NO_PA);
+    // // addCertificates();
   }
 
   displayResults(DocumentReaderResults results) {
@@ -283,13 +305,7 @@ class _MyAppState extends State<MyApp> {
         onChanged: (value) => setState(() {
               _selectedScenario = value;
               DocumentReader.setConfig({
-                "functionality": {
-                  "onlineProcessingConfiguration": {
-                    "mode": OnlineMode.MANUAL,
-                    "url": "https://api.regulaforensics.com/",
-                    "processParams": {"scenario": _selectedScenario},
-                  },
-                },
+                "processParams": {"scenario": _selectedScenario}
               });
             }));
     return Container(
